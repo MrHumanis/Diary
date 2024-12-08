@@ -1,0 +1,47 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'diary/style.css' %}">
+<h1>Список задач</h1>
+<form method="post">
+    {% csrf_token %}
+    <select name="status">
+        <option value="">Все (кроме выполненных)</option>
+        <option value="planned">В планах</option>
+        <option value="in_progress">В работе</option>
+        <option value="completed">Выполнена</option>
+    </select>
+    <button type="submit">Применить фильтр</button>
+</form>
+
+<script>
+  const selectElement = document.querySelector('select[name="status"]');
+  const selectedValue = localStorage.getItem('selectedStatus');
+
+    if (selectedValue) {
+        selectElement.value = selectedValue;
+    }
+  selectElement.addEventListener('change', function() {
+    localStorage.setItem('selectedStatus', this.value);
+  });
+  const filterStatusSpan = document.getElementById('filter-status');
+  const statusSelect = document.getElementById('status-select');
+
+  filterStatusSpan.textContent = statusSelect.value || 'Все (кроме выполненных)';
+  statusSelect.addEventListener('change', function(){
+    filterStatusSpan.textContent = this.value || 'Все (кроме выполненных)';
+  });
+</script>
+
+
+<ul>
+    {% for task in tasks %}
+        <li>
+            <a href="{% url 'task_detail' task.pk %}" class="task-link">{{ task.title }}</a>
+            <a href="{% url 'task_update' task.pk %}" class="button">Редактировать</a>
+            <a href="{% url 'task_delete' task.pk %}" class="button button-delete">Удалить</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'task_create' %}" class="button">Добавить задачу</a>
+
+

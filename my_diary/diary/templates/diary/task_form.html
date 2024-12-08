@@ -1,0 +1,13 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'diary/form_style.css' %}">
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button save-button">Сохранить</button>
+</form>
+{% if update %}
+    <a href="{% url 'task_list' %}" class="button">Назад к списку</a>
+{% endif %}
+
+

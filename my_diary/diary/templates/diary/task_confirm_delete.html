@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'diary/delete.css' %}">
+<div class="confirm-delete">
+    <h1>Удалить задачу "{{ task.title }}"</h1>
+    <form method="post" class="confirm-delete">
+        {% csrf_token %}
+        <button type="submit" class="button button-delete">Удалить</button>
+        <a href="{% url 'task_list' %}" class="button">Отмена</a>
+    </form>
+</div>
+
+
